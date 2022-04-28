@@ -5,6 +5,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -158,6 +159,8 @@ public class FeedLivro extends AppCompatActivity {
                                     @Override
                                     public void onResponse(Call<Livro> call, Response<Livro> response) {
                                         Toast.makeText(FeedLivro.this, "Livro excluído com sucesso", Toast.LENGTH_SHORT).show();
+
+                                        startActivity(new Intent(FeedLivro.this, FeedLivro.class));
                                     }
 
                                     @Override
