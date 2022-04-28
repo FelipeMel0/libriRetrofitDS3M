@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.cristianomoraes.libri_retorfit.model.Item;
 import com.cristianomoraes.libri_retorfit.model.Livro;
@@ -142,20 +143,40 @@ public class FeedLivro extends AppCompatActivity {
                             1 - Título
                             2 - Ação a ser executada
                     */
+
                     AlertDialog.Builder alertDialog = new AlertDialog.Builder(FeedLivro.this)
                             .setMessage("Escolha a ação que deseja executar")
                             .setPositiveButton("Editar", (dialog1, witch)->{})
-                            .setNegativeButton("Excluir", (dialog1, witch)->{});
+
+                            .setNegativeButton("Excluir", (dialog1, witch)->{
+
+                                routerInterface = APIUtil.getUsuarioInterface();
+
+                                Call<Livro> call = routerInterface.deleteLivro(cod_livro);
+
+                                call.enqueue(new Callback<Livro>() {
+                                    @Override
+                                    public void onResponse(Call<Livro> call, Response<Livro> response) {
+                                        Toast.makeText(FeedLivro.this, "Livro excluído com sucesso", Toast.LENGTH_SHORT).show();
+                                    }
+
+                                    @Override
+                                    public void onFailure(Call<Livro> call, Throwable t) {
+
+                                    }
+                                });
+                            });
 
                     alertDialog.show();
                 });
 
             }//FIM DO CONSTRUTOR DA CLASSE LIVROVIEWHOLDER
 
-            /** MÉTODO QUE CARREGA OS VALORES NOS ELMENTOS DE TEXTVIEW
+            /* MÉTODO QUE CARREGA OS VALORES NOS ELMENTOS DE TEXTVIEW
                 - txtTitulo
                 - txtDescricao
-             * **/
+            */
+
             public void setLivroData(Livro livro){
 
                 txtTitulo.setText(livro.getTitulo());
@@ -165,7 +186,6 @@ public class FeedLivro extends AppCompatActivity {
             }
 
         }//FIM DA CLASSE LIVROVIEWHOLDER
-
 
     }
 
